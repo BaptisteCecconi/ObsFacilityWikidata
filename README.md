@@ -1,5 +1,6 @@
-This document describes/defines FILL-THIS-OUT in the [Virtual
-Observatory](https://ivoa.net)
+This document describes how [Wikidata](https://www.wikidata.org) can 
+be used for an Observation Facility vocabulary in the [Virtual 
+Observatory](https://ivoa.net).
 
 Stable versions of this document are available through the [IVOA
 document repository](http://ivoa.net/documents/).
