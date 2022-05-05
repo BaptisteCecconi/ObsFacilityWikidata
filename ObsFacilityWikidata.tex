@@ -1,16 +1,21 @@
 \documentclass[11pt,a4paper]{ivoa}
 \input tthdefs
+\usepackage{verbatim}
+\usepackage{longtable}
+\usepackage{tabularx}
 
-\title{???? Full title ????}
+\title{Using Wikidata for an Observation Facility Vocabulary}
 
 % see ivoatexDoc for what group names to use here; use \ivoagroup[IG] for
 % interest groups.
-\ivoagroup{???? group ????}
+\ivoagroup{Semantics}
 
-\author[????URL????]{????Alfred Usher Thor????}
-\author{????Fred Offline????}
+\author[mailto:baptiste.cecconi@obspm.fr]{Baptiste Cecconi}
+\author{Laura Debisschop}
+\author{Mireille Louys}
+\author{Markus Demleitner}
 
-\editor{????Alfred Usher Thor????}
+\editor{Baptiste Cecconi}
 
 % \previousversion[????URL????]{????Concise Document Label????}
 \previousversion{This is the first public release}
@@ -18,13 +23,31 @@
 
 \begin{document}
 \begin{abstract}
-???? Abstract ????
+This document presents how Wikidata can be used for defining a 
+vocabulary for Observation Facilities. 
 \end{abstract}
 
 
 \section*{Acknowledgments}
 
-???? Or remove the section header ????
+This work has been developed by the VESPA (Virtual European Solar
+and Planetary Access) team.  VESPA has been designed in the frame of
+Europlanet 2020 Research Infrastructure project and finalised
+during the Europlanet 2024 Research Infrastructure project,
+based on an assessment phase in the Europlanet Research Infrastructure
+ programme, JRA4 work package (IDIS activity).
+
+The Europlanet-RI project was funded by the European Commission under the
+7th Framework Program, grant 228319 ``Capacities Specific Programme''.
+The Europlanet 2020 Research Infrastructure project has
+received funding from the European Union's Horizon 2020 research and
+innovation programme under grant agreement No 654208.  The Europlanet-2024
+Research Infrastructure project has received funding from
+the European Union's Horizon 2020 research and innovation programme under
+grant agreement No 871149.  Additional funding was provided in France by
+the CNRS / Action Sp\'ecifique Observatoire Virtuel and Programme National
+de Plan\'etologie / INSU, as well as CNES, through the participation to
+IPDA and IHDEA activities.
 
 \section*{Conformance-related definitions}
 
@@ -43,7 +66,35 @@ infrastructure that enable VO applications.
 
 \section{Introduction}
 
-???? Write something ????
+Searching for data products using the observation facility is a 
+typical use case for the VO, e.g.: \emph{Find Hubble observations
+of Saturn in Nov.\ 1997}. The two IVOA data discovery interfaces, 
+ObsTAP \citep{2017ivoa.spec.0509L} and EPN-TAP \citep{ivoa:epntap}, 
+include keywords allowing such queries (with keywords like 
+\texttt{facility} or \texttt{instrument\_host\_name}). However, with 
+the specific previous example, a query on EPN-TAP will not show any 
+result, since the available data are registered with an 
+\texttt{instrument\_host\_name} set to \emph{HST}. It is up to the 
+data provider to provide adequate observation facility names, so 
+that users can find the resources they are looking for. However, 
+observation facility names usually have acronyms, aliases or alternate 
+names, depending on the context, or even on observation periods of 
+time (e.g., space mission can change name when they are extended). 
+
+In order to address this use-case, two steps are required: (a) group
+all known aliases for each observation facilities in a lookup table, 
+which can be used to build a dedicated name resolver service; and 
+(b) propose a vocabulary, which would be used by data providers to 
+register their datasets. This document does not address another key
+aspect of observation facilities in the VO, which is their 
+description with a dedicated information model and standardised 
+metadata.
+
+In this document, we first describe the selected semantical scope of 
+observation facilities in this study. We then present the various 
+lists of observation facility names that are available. We expose the 
+use of Wikidata as a reference knowledge base. We finally propose a 
+vocabulary scheme based on this study. 
 
 \subsection{Role within the VO Architecture}
 
@@ -64,9 +115,463 @@ infrastructure that enable VO applications.
 Fig.~\ref{fig:archdiag} shows the role this document plays within the
 IVOA architecture \citep{2010ivoa.rept.1123A}.
 
-???? and so on, LaTeX as you know and love it. ????
+\section{Observation Facility Semantic Scope}
+\label{sec:scope}
+
+Several groups have been working on modelling the roles and 
+relationships between elements of measurement or observation devices. 
+
+In the field of planetary sciences, the NASA PDS4 information model 
+(PDS4-IM) includes terms to describe an \emph{Observing\_System}, as 
+shown in Figure \ref{fig:pds4-concept-map}, and defined as follows:
+``\emph{The Observing System class describes the entire suite used to 
+collect the data}''. The list of \texttt{Observing\_System\_Components} 
+is defined as: \emph{Airborne, Aircraft, Artificial Illumination, 
+Balloon, Computer, Facility, Host, Instrument, Laboratory, Literature 
+Search, Naked Eye, Observatory, Spacecraft, Suborbital Rocket, 
+Telescope}, each of which is defined in the PDS4-IM. Observation 
+facilities description records are serialised using so-called 
+\emph{Context Products}. The PDS4 context products are currently available 
+online at: \url{https://pds.nasa.gov/data/pds4/context-pds4/}. This 
+page provides access to  context products like: \emph{facility}, 
+\emph{instrument}, \emph{instrument\_host}, \emph{investigation}, 
+\emph{telescope}, etc. The \emph{Hubble Space Telescope} 
+record\footnote{\protect\url{https://pds.nasa.gov/data/pds4/context-pds4/instrument_host/spacecraft.hst_1.3.xml}} 
+is providing a series of metadata, including an identifier, a title, 
+a reference, a description, and many internal references to other 
+context products registered in the PDS4 database, including 
+observed targets, and investigations (observation campaigns), hosted 
+instruments, etc.
+
+\begin{figure}
+\centering\includegraphics[width=0.9\textwidth]{img/pds4-concept-map.jpg}
+\caption{PDS4 Information Model Concept Map, including the 
+\emph{Observing\_System} section. Figure take from PDS4 IM v1.17.0.0 
+\protect\citep{pds4-im-v1H00}.}\label{fig:pds4-concept-map}
+\end{figure}
+
+The PDS4-IM description has been used to prepare a preliminary study of
+an extension of VOResource \citep{2018ivoa.spec.0625P}, called VOFacility, 
+which was presented at the ADASS conference in 2015 \citep{Louys:2015to} 
+and is available at \url{https://wiki.ivoa.net/internal/IVOA/IvoaSemantics/VOFacility.xsd}. 
+This model defines various \emph{observation facility} types: 
+\emph{Observatory, Spacecraft, SpaceMission, Telescope, FieldAnalog,
+LabExperiment, Simulation}. This list encompasses the scope of the 
+\emph{observation facility} in this document.
+
+In the frame of Earth Observation (EO), the Open Geospatial Consortium
+(OGC) has defined a SensorML (Sensor Meta Language) \citep{ogc-sensorml} 
+allowing to describe sensors and instruments. One of the application of 
+SensorML is the \emph{Discovery of sensor, sensor systems, and processes}. 
+The \emph{PhysicalSystem} type of SensorML is the closest model type to
+our observation facility term, however, its mixes instruments, sensors 
+and platform into a single compound type, which doesn't match our 
+typology mapping. 
+
+Finally, in the frame of heliophysics, the Space Physics Archive Search
+and Extract (SPASE) data model \citep{Roberts:2018bi} has two different
+concepts for observatories and instruments: observatories are defined 
+with a location (specified either with ground coordinates, or with a 
+region in space for spacecraft), whereas instruments are defined with 
+a type of measurement. 
+
+In this document, we use the latter definition, that is: an 
+\emph{observation facility} is an apparatus bearing one or several 
+instruments (measuring devices, modelling codes, etc.), which is 
+can be defined with a location. In that sense, we deal with observatories, 
+telescopes in observatories, spacecraft, space probes, space missions 
+(as a group of spacecraft), etc. We also include laboratories or 
+facilities conducting  experiments, such as supporting observation on 
+ices, plasma, gases, etc., as well as planetary analogue sites. The 
+instruments (which are defined by their method or type of observation) 
+attached to or mounted on the observation facilities are out of the scope 
+of this study.
+
+
+\section{Observation Facility Lists}
+Many observation facility lists are available in several contexts. Each list
+defines names and/or identifiers for each element. We present here the main 
+lists that we have identified and processed during the study. The various 
+lists (as available at the time of writing) are available (in raw or 
+processed format) on: \url{https://github.com/epn-vespa/FacilityList}.
+Table \ref{tab:lists} shows the record count for each of the lists. 
+Example records are also available in Appendix \ref{appendix:lists}. 
+
+
+\begin{table}
+\caption{Observation Facility name lists, with their scope and record 
+count at the time of writing.}\label{tab:lists}
+\begin{tabular}{lll}
+List Name               & Scope           & Record Count \\
+\hline
+NSSDC                   &           space & 1571 \\
+NASA/NAIF               &           space & 307 \\
+NASA/PDS                &           space & 228 \\
+SPASE                   & ground \& space & 215 \\
+SANA                    &           space & 1513 \\
+AAS                     & ground \& space & 563 \\
+ADS/Harvard             & ground \& space & 256 \\
+IRAF                    & ground          & 28 \\
+IAU/MPC                 & ground \& space & 2335 \\
+Xephem                  & ground          & 461 \\
+WMO/Oscar               &           space & 683 \\
+WISERep (telescopes)    & ground          & 108 \\
+Astroweb                & ground \& space & 375 \\
+Quaero/IMCCE            &           space & 19855
+\end{tabular}
+\end{table}
+
+
+\subsection{AAS (American Astronomical Society)}
+The AAS is maintaining a \emph{Facility Keyword} list, which should be used
+together with their \texttt{AASTeX} package. The list includes a keyword 
+(short name), the full facility name, the facility location (continent or 
+space), the observation wavelength ranges and facility type flags.  
+
+\subsection{ADS (Astronomy Data System)}
+The ADS used to propose a list of facilities\footnote{A copy is available here: 
+\protect\url{https://github.com/epn-vespa/FacilityList/blob/master/data/ADS/ADS_facilities.txt}}, 
+with its former web user interface. The current version of ADS is not using 
+such a curated list. The list contains an identifier and a full name. For 
+ground based observatories, the identifier is composed of pair of 
+short names (observatory and telescope), attached with the \texttt{.} (dot) 
+character. For spacecraft, the identifier stars with \texttt{Sa.} and is 
+followed by a spacecraft short name.
+
+\subsection{Astroweb}
+The Astroweb list\footnote{The latest version is distributed by CDS: 
+\protect\url{http://cdsweb.u-strasbg.fr/astroWeb/astroweb/telescope.html}} 
+is not maintained since 2010 but contains valuable information in our context. 
+Each record is composed of a full name, an identifier, a long description
+a web URL and a set of metadata describing the facility (\emph{high\_energy}, 
+\emph{optical}, \emph{solar}, \emph{space}...)
+
+\subsection{IAU-MPC (International Astronomical Union -- Minor Planet Center)}
+The IAU-MPC observatory code list\footnote{\url{https://www.minorplanetcenter.net/iau/lists/ObsCodes.html}}
+references observatories used for minor planet and solar system small bodies
+science, which includes most of the ground based observatories operating in 
+optical and infrared. Each record is composed of an identifier (observatory
+code), a location on Earth, and a name. In case of spacecraft, the location
+coordinates are replaced by \texttt{x} characters.
+
+\subsection{IRAF (Image Reduction and Analysis Facility)}
+IRAF is an astronomical data analysis software. It contains a list of 
+observation facilities\footnote{\url{http://tdc-www.harvard.edu/iraf/rvsao/bcvcorr/obsdb.html}}.
+Each record is composed of an identifier, a full name, a location and 
+a timezone metadata. 
+
+\subsection{NASA/NAIF (Navigation and Ancillary Information System)}
+The NASA/NAIF team is maintaining orbital and pointing information for 
+space missions, using the NASA/SPICE library. The NAIF toolkit includes
+several nomenclature composed of pairs of identifier (numeric) and 
+names. In the frame of this study, the NAIF list of spacecraft\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Spacecraft}}, and ground 
+stations\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Ground\%20Stations.}}
+have been explored.
+
+\subsection{NSSDC (National Space Science Data Centre)}
+The NSSDC is a common NASA data centre for space sciences. List of 
+spacecraft and space platforms are maintained, with topical grouping.
+We have used the \emph{Astronomy}, \emph{Planetary-Science} and 
+\emph{Space-Physics} lists. The records are composed of an 
+identifier (most usually, this is its COSPAR-ID), a name and a
+launch date.
+
+\subsection{NASA/PDS (Planetary Data System)}
+The NASA/PDS is the NASA Planetary Science archive, built upon the 
+PDS4-IM. As detailed in section \ref{sec:scope}, it is storing 
+observation facility metadata into \emph{Context Products}. In this 
+study we have analysed the \texttt{airborne}, \texttt{facility},  
+\texttt{instrument\_host} and \texttt{telescope}. Each record is 
+a PDS4-IM product, many metadata, including an PDS4 Logical 
+identifier, a full name, related products (in PDS4), references...
+
+\subsection{SANA (Space Assigned Numbers Authority)}
+The SANA is managing registries related to space systems, in 
+coordination with CCSDS (Consultative Committee for Space Data
+Systems). The \emph{Spacecraft Identifier} registry gathers 
+spacecraft metadata (name, identifiers, agency, contact) but is 
+most focussing on the telemetry and telecommand (TMTC) links 
+(identifier, link type, link frequency). We have only used the 
+spacecraft identifier and name.  
+
+\subsection{Xephem}
+Xephem is an astronomical ephemeris and planetarium software. It
+contains a list of observatories, available from its Github 
+repository\footnote{\url{https://github.com/XEphem/XEphem/blob/main/GUI/xephem/auxil/xephem_sites}}.
+Each record is composed of a name, a location on Earth 
+(including elevation and time zone).
+  
+\subsection{WISeREP (Weizmann Interactive Supernova Data Repository )}
+The WISeREP facility includes lists\footnote{\url{https://www.wiserep.org/aux}} 
+of sites, telescopes and instruments. We analysed its list of telescope 
+in this study. Each record is composed of an identifier, a name, a 
+nickname and other metadata (location, elevation, site, web URL, etc.)
+
+\subsection{SPASE (Space Physics Archive Search and Extract)} 
+The SPASE registry is using the SPASE model \citep{Roberts:2018bi}. 
+It contains records with \emph{Observatory} type, which cover our
+scope as explained in section \ref{sec:scope}. The SPASE records 
+are stored as XML trees, and are available from the HPDE (Heliophyiscs
+Data Environment) Github repository\footnote{\url{https://github.com/hpde}},
+which is organised by \emph{Naming Authority}. Although each naming 
+authority may have an Observatory section, most of the Observatory 
+records are currently registered in the SMWG (SPASE Metadata Working
+Group) repository\footnote{\url{https://github.com/hpde/SMWG}}.
+Each observatory records contains an identifier (SPASE URI), a name, 
+a location, an operating time span, as well as other metadata. 
+
+
+\subsection{WMO/Oscar (World Meteorologic Organisation/Observing Systems Capability Analysis and Review Tool)}
+The OSCAR tool of the WMO is maintaining several lists concerning
+observation facilities, with Space-based resources\footnote{\url{https://space.oscar.wmo.int/spacecapabilities}}, 
+as well as ground based stations\footnote{\url{https://oscar.wmo.int/surface/\#/}}. 
+We consider these lists since Space Weather (or Space Situational 
+Awareness) is part of the WMO and IVOA scopes. The analysis of these 
+resources requires filtering to keep only those within the IVOA scope.  
+Each satellite record contains an acronym, a full name as well as many 
+metadata related to operations and instruments.  
+
+\subsection{IMCCE/Quaero (Institut de M\'ecanique C\'eleste et de Calcul des \'Eph\'em\'erides)}
+The IMCCE lab is proposing a name resolver\footnote{\url{https://ssp.imcce.fr/webservices/ssodnet/api/quaero/}} 
+using its SsODNet (Solar system Open Database Network) service. This
+service, called \emph{Quaero} contains several types of records. Using 
+the query \url{https://api.ssodnet.imcce.fr/quaero/1/sso/search?q=type:Spacecraft}, 
+it is possible to access to the list of Spacecraft records. Each 
+records is composed of an identifier, a name, a list of
+aliases, and other metadata.
+
+\subsection{Wikidata}
+Wikidata is a free and open knowledge base, community curated, and 
+based on structured data (RDF based). The record content is not 
+constrained by an outstanding information model. Each record is 
+composed of an identifier, a title, a set of aliases (in several 
+languages). It also has a set of \emph{statements}, composed of properties
+(e.g., \emph{is instance of}) linked to a value (e.g., \emph{space 
+observatory}), and a set of \emph{external identifiers}. Observation 
+facilities are retrieved using a set of record classes (\emph{is 
+instance of} statement). 
+
+\section{More details on Wikidata}
+Mapping the lists of names and identifiers presented in the previous
+section is a cumbersome task, requiring a lot of time, effort and 
+curation on the long run. After the assessment of the various lists,
+it appears that Wikidata records contain most of the information 
+required for the name resolver use case: the title, aliases and 
+external identifiers are accurate for most of the studied records. 
+
+We present below a few examples showing the various cases, with the 
+relevant subset of metadata available in the records.
+
+\noindent\begin{longtable}{p{.2\textwidth}p{.75\textwidth}}
+\hline
+\hline
+\multicolumn{2}{l}{\bf Example 1. Hubble Space Telescope}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q2513}\\
+Title      & Hubble Space Telescope \\
+Aliases    & HST, Hubble, Hubbleteleskop, t\'elescope Hubble, Telescopio Espacial Hubble, ???, telescopio spaziale Hubble, etc\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & space observatory \\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+COSPAR ID  & 1990-073B \\
+NSSDCA ID  & 1990-073B \\
+IAU-MPC ID & 250\\
+NAIF ID    & -48\\
+UAT ID     & 761\\
+SCN ID     & 20580 \\
+\hline
+\hline
+\multicolumn{2}{l}{Example 2. Venera 2}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q719617}\\
+Title      & Venera 2\\
+Aliases    & 3MV-4 No.4, etc\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & space probe \\
+is instance of & 3MV (Soviet unmanned probe design) \\
+is part of     & Venera \\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+COSPAR ID  & 1965-091A \\
+NSSDCA ID  & 1965-091A \\
+SCN ID     & 01730 \\
+\hline
+\hline
+\multicolumn{2}{l}{Example 3. Mount Wilson Observatory}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q466863}\\
+Title      & Mount Wilson Observatory\\
+Aliases    & Observatoire du Mount Wilson, Mount Wilson, Mount-Wilson-Observatorium, Osservatorio di Mount Wilson, etc.\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & astronomical observatory \\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+ISNI       & 0000 0001 2168 8877\\
+IAU-MPC ID & 672\\
+ROR ID     & 03xvqcz58\\
+\hline
+\hline
+\multicolumn{2}{l}{Example 4. SOHO}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q320638}\\
+Title      & Solar and Heliospheric Observatory\\
+Aliases    & SOHO, Sonde SOHO, Solar Heliospheric Observatory, Observatorio Solar y Heliosferico, etc.\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & space observatory \\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+COSPAR ID  & 1995-065A \\
+NSSDCA ID  & 1995-065A \\
+IAU-MPC ID & 249\\
+NAIF ID    & -21\\
+SCN        & 23726\\
+\hline
+\hline
+\multicolumn{2}{l}{Example 5. COBE}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q49445}\\
+Title      & Cosmic Background Explorer\\
+Aliases    & COBE, Explorer 66, etc.\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & space observatory \\
+is instance of & cosmic microwave background experiment \\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+COSPAR ID  & 1989-089A \\
+NSSDCA ID  & 1989-089A \\
+SCN        & 20322\\
+\hline
+\hline
+\multicolumn{2}{l}{Example 5. CFHT}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q1031946}\\
+Title      & Canada-France-Hawaii Telescope\\
+Aliases    & observatoire Canada-France-Hawa\"i, T\'elescope Canada-France-Hawaii, Tcfh, etc.\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & astronomical observatory \\
+is instance of & optical telescope \\
+is part of & Mauna Kea Observatories\\
+\multicolumn{2}{c}{\sl selected identifiers}\\
+ISNI       & 0000 0004 0601 3064\\
+ROR ID     & 05xq4gr47 \\
+\hline
+\end{longtable}
+
+Wikidata can be updated to improve the quality of the knowledge.
+Within the scope of this work, this implies three types of updates:
+\begin{itemize}
+\item added relevant \emph{is instance of} statements, to ease the 
+record discovery and limit the complexity of the queries (see, e.g., 
+Appendix \ref{appendix:sparql}. 
+\item include \emph{external identifiers} statements, when values 
+are missing
+\item define new identifier authorities in Wikidata for lists that 
+are not yet registered to be used as \emph{external identifiers}. 
+\end{itemize}
+The first two items are easy to setup and solve when the record is 
+found. However, is the \emph{is instance of} statement is not 
+properly labeled in th first place, finding the record is not always 
+straightforward as commons names can be used in many other contexts. 
+The latter item (defining new \emph{external identifiers}) is 
+possible through a process\footnote{\url{https://www.wikidata.org/wiki/Wikidata:Property_proposal/Authority_control}}
+defined by Wikidata. 
+
+\section{A Name Resolver for Observation Facilities}
+Using the Wikidata knowledge base, it is possible to build a name
+resolver for observation facilities. A prototype is planned using 
+regular extraction of Wikidata using queries similar to that 
+presented in Appendix \ref{appendix:sparql}. This query provides
+a JSON document that can be easily ingested into an elastic-search
+data base (or similar) to set a name resolver very similarly to 
+the Quaero service of IMCCE. 
+
+\section{A Vocabulary for Observation Facilities}
+An observation facility vocabulary could be built using Wikidata
+as an external knowledge base, similarly to the \emph{IVOA-flavoured 
+UAT} vocabulary\footnote{\url{https://www.ivoa.net/rdf/uat/2021-02-11/uat.html}}.
+
+The internal Wikidata identifier would be hidden to the user, which 
+would use the record title as a human readable identifier (with the 
+same transformation as for the UAT: lower-cased and hyphen-split). 
+Using the same examples as in the previous section we would have: 
+\begin{itemize}
+\item Q2513: hubble-space-telescope
+\item Q719617: venera-2
+\item Q466863: mount-wilson-observatory
+\item Q320638: solar-and-heliospheric-observatory
+\item Q49445: cosmic-background-explorer
+\item Q1031946: canada-france-hawaii-telescope
+\end{itemize}
+
+However, the current limitation of this solution is the heterogeneous 
+quality of the statements in Wikidata. Some \emph{is part of} 
+statements could be reused in the IVOA-flavoured Wikidata 
+Observation Facility vocabulary to create links between 
+records, but most of those links are yet to be assessed, validated
+or even worse, created.  
+
+\section{Discussion}
+This note presents how to use Wikidata to setup a name resolver 
+for Observations Facilities, and it should be possible to setup 
+an Observation Facility vocabulary using the same knowledge base.
+
+As stated in the introduction, this note is not addressing the 
+information model required to describe observation facilities. 
+Such modeling effort should be done to formalise the metadata 
+associated to the observation facilities, as well as linking 
+with associated instruments. The work done by the NASA/PDS4 or
+SPASE groups will be very helpful to start this effort. 
+
+The introduction also stated that the instruments mounted or 
+associated to the observation facilities were not in the scope
+of the note. There are much less openly accessible resources
+listing instruments then for observation facilities, and 
+Wikidata is poorly addressing the observation facility to 
+instrument links. Many links are missing. Many instruments
+are not yet present in Wikidata.
+
+Finally, the recent RDA \emph{PID for Instruments} 
+recommendation\footnote{\url{https://www.rd-alliance.org/node/57186/outputs}} 
+covers a scope similar to this note. However, a closer 
+assessment of this document logically reveals concepts very 
+close to the Datacite schema, and is not really applicable to 
+the needs presented here. Furthermore, it is preferable that 
+PIDs are maintained by the resource maintainer, so that they 
+are timely and adequately curated and updated. 
 
 \appendix
+\section{List Example Records}
+\subsection{AAS Record Examples}
+\noindent{\tiny\begin{tabularx}{\textwidth}{>{\setlength\hsize{2\hsize}}X|l|>{\setlength\hsize{0.5\hsize}}X|>{\setlength\hsize{0.5\hsize}}X|l|}
+Full Name & ID & Location & Wavelengths & Extra type \\
+\hline
+\hline
+3.58m Canada-France-Hawaii Telescope (CFHT) at Mauna Kea Observatory & CFHT & North America and Hawaii & optical, infrared & \\
+\hline
+Centre National de la Recherche Scientifique (CNRS) 1.93m Telescope at Observatoire de Haute-Provence (OHP)&OHP:1.93m&Europe&optical, infrared& \\
+\hline
+NASA COsmic Background Explorer satellite mission (also known as Explorer 66)&COBE&Space&infrared, millimeter& \\
+\hline
+European Space Agency (ESA)/NASA Solar Heliospheric Observatory (SOHO) Satellite Mission&SOHO&Space&ultraviolet, optical& solar
+\end{tabularx}}
+
+\subsection{ADS Record Examples}
+\noindent{\tiny\begin{tabularx}{\textwidth}{lX}
+ID & Full Name \\
+\hline
+\hline
+MK.CFHT   & Mauna Kea/CFHT, Canada-France-Hawaii Telescope\\
+\hline
+OHP.1.93m & Observatoire de Haute-Provence/1.93 meter Telescope \\
+\hline
+Sa.COBE   & COBE, COsmic Background Explorer satellite \\
+\hline
+Sa.SOHO   & SOHO, SOlar Heliospheric Observatory satellite
+\end{tabularx}}
+
+\section{Wikidata SparQL query}
+\label{appendix:sparql}
+At the time of writing of this note, the following SparQL query
+is used to retrieve WikiData records:  
+\tiny{\verbatiminput{sparql_query.txt}}
+
+
 \section{Changes from Previous Versions}
 
 No previous versions yet.  
@@ -76,7 +581,7 @@ No previous versions yet.
 
 % NOTE: IVOA recommendations must be cited from docrepo rather than ivoabib
 % (REC entries there are for legacy documents only)
-\bibliography{ivoatex/ivoabib,ivoatex/docrepo}
+\bibliography{localrefs,ivoatex/ivoabib,ivoatex/docrepo}
 
 
 \end{document}
