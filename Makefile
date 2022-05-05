@@ -22,14 +22,14 @@ SOURCES = $(DOCNAME).tex role_diagram.pdf
 
 # List of image files to be included in submitted package (anything that
 # can be rendered directly by common web browsers)
-FIGURES = role_diagram.svg
+FIGURES = role_diagram.svg pds4-concept-map.jpg
 
 # List of PDF figures (figures that must be converted to pixel images to
 # work in web browsers).
 VECTORFIGURES = 
 
 # Additional files to distribute (e.g., CSS, schema files, examples...)
-AUX_FILES = localrefs.bib pds4-concept-map.jpg
+AUX_FILES = localrefs.bib sparql_query.txt
 
 -include ivoatex/Makefile
 
