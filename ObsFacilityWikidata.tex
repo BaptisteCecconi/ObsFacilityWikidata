@@ -3,6 +3,7 @@
 \usepackage{verbatim}
 \usepackage{longtable}
 \usepackage{tabularx}
+\usepackage{todonotes}
 
 \title{Using Wikidata for an Observation Facility Vocabulary}
 
@@ -75,23 +76,25 @@ include keywords allowing such queries (with keywords like
 the specific previous example, a query on EPN-TAP will not show any 
 result, since the available data are registered with an 
 \texttt{instrument\_host\_name} set to \emph{HST}. It is up to the 
-data provider to provide adequate observation facility names, so 
-that users can find the resources they are looking for. However, 
+data provider to provide observation facility names that likely match
+users' ideas of their designations.  Since
 observation facility names usually have acronyms, aliases or alternate 
-names, depending on the context, or even on observation periods of 
-time (e.g., space mission can change name when they are extended). 
+names, which may further depend the context or even on 
+time (e.g., space mission can change name when they are extended), this
+is certainly no easy task.
 
-In order to address this use-case, two steps are required: (a) group
+In order to address this use case, two steps are required: (a) group
 all known aliases for each observation facilities in a lookup table, 
 which can be used to build a dedicated name resolver service; and 
-(b) propose a vocabulary, which would be used by data providers to 
-register their datasets. This document does not address another key
+(b) propose a vocabulary to be used in new data in order to restrict the
+need for the name resolver to the data discovery clients.
+This document does not address another key
 aspect of observation facilities in the VO, which is their 
 description with a dedicated information model and standardised 
 metadata.
 
 In this document, we first describe the selected semantical scope of 
-observation facilities in this study. We then present the various 
+observation facilities in this Note. We then present the various 
 lists of observation facility names that are available. We expose the 
 use of Wikidata as a reference knowledge base. We finally propose a 
 vocabulary scheme based on this study. 
@@ -126,7 +129,8 @@ In the field of planetary sciences, the NASA PDS4 information model
 shown in Figure \ref{fig:pds4-concept-map}, and defined as follows:
 ``\emph{The Observing System class describes the entire suite used to 
 collect the data}''. The list of \texttt{Observing\_System\_Components} 
-is defined as: \emph{Airborne, Aircraft, Artificial Illumination, 
+is\footnote{\url{https://pds.nasa.gov/datastandards/documents/im/v1/index_1H00.html\#attribute_pds_observing_system_component_pds_type}}
+defined as: \emph{Airborne, Aircraft, Artificial Illumination, 
 Balloon, Computer, Facility, Host, Instrument, Laboratory, Literature 
 Search, Naked Eye, Observatory, Spacecraft, Suborbital Rocket, 
 Telescope}, each of which is defined in the PDS4-IM. Observation 
@@ -162,10 +166,11 @@ LabExperiment, Simulation}. This list encompasses the scope of the
 In the frame of Earth Observation (EO), the Open Geospatial Consortium
 (OGC) has defined a SensorML (Sensor Meta Language) \citep{ogc-sensorml} 
 allowing to describe sensors and instruments. One of the application of 
-SensorML is the \emph{Discovery of sensor, sensor systems, and processes}. 
+SensorML is the \emph{Discovery of sensor, sensor systems, and
+processes}\todo{If that's a quotation, I'd prefer ``'' as markup}. 
 The \emph{PhysicalSystem} type of SensorML is the closest model type to
-our observation facility term, however, its mixes instruments, sensors 
-and platform into a single compound type, which doesn't match our 
+our observation facility term.  However, it mixes instruments, sensors 
+and platform into a single compound type, which does not match our 
 typology mapping. 
 
 Finally, in the frame of heliophysics, the Space Physics Archive Search
@@ -224,7 +229,7 @@ Quaero/IMCCE            &           space & 19855
 
 \subsection{AAS (American Astronomical Society)}
 The AAS is maintaining a \emph{Facility Keyword} list, which should be used
-together with their \texttt{AASTeX} package. The list includes a keyword 
+together with their \emph{AASTeX} package. The list includes a keyword 
 (short name), the full facility name, the facility location (continent or 
 space), the observation wavelength ranges and facility type flags.  
 
@@ -234,14 +239,15 @@ The ADS used to propose a list of facilities\footnote{A copy is available here:
 with its former web user interface. The current version of ADS is not using 
 such a curated list. The list contains an identifier and a full name. For 
 ground based observatories, the identifier is composed of pair of 
-short names (observatory and telescope), attached with the \texttt{.} (dot) 
-character. For spacecraft, the identifier stars with \texttt{Sa.} and is 
+short names (observatory and telescope), separated by a \texttt{.} (dot) 
+character. For spacecraft, the identifier starts with \texttt{Sa.} and is 
 followed by a spacecraft short name.
 
 \subsection{Astroweb}
 The Astroweb list\footnote{The latest version is distributed by CDS: 
 \protect\url{http://cdsweb.u-strasbg.fr/astroWeb/astroweb/telescope.html}} 
-is not maintained since 2010 but contains valuable information in our context. 
+has not been maintained since 2010.  
+It still contains information valuable for our present endeavour.
 Each record is composed of a full name, an identifier, a long description
 a web URL and a set of metadata describing the facility (\emph{high\_energy}, 
 \emph{optical}, \emph{solar}, \emph{space}...)
@@ -258,22 +264,23 @@ coordinates are replaced by \texttt{x} characters.
 IRAF is an astronomical data analysis software. It contains a list of 
 observation facilities\footnote{\url{http://tdc-www.harvard.edu/iraf/rvsao/bcvcorr/obsdb.html}}.
 Each record is composed of an identifier, a full name, a location and 
-a timezone metadata. 
+a timezone identifier. 
 
 \subsection{NASA/NAIF (Navigation and Ancillary Information System)}
 The NASA/NAIF team is maintaining orbital and pointing information for 
 space missions, using the NASA/SPICE library. The NAIF toolkit includes
-several nomenclature composed of pairs of identifier (numeric) and 
+several nomenclatures composed of pairs of identifier (numeric) and 
 names. In the frame of this study, the NAIF list of spacecraft\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Spacecraft}}, and ground 
 stations\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Ground\%20Stations.}}
 have been explored.
 
 \subsection{NSSDC (National Space Science Data Centre)}
-The NSSDC is a common NASA data centre for space sciences. List of 
-spacecraft and space platforms are maintained, with topical grouping.
+The NSSDC is a common NASA data centre for space sciences. It maintains
+a list of 
+spacecraft and space platforms grouped by sub-discipline.
 We have used the \emph{Astronomy}, \emph{Planetary-Science} and 
 \emph{Space-Physics} lists. The records are composed of an 
-identifier (most usually, this is its COSPAR-ID), a name and a
+identifier (most usually, this is its COSPAR-ID), a name, and a
 launch date.
 
 \subsection{NASA/PDS (Planetary Data System)}
@@ -283,14 +290,15 @@ observation facility metadata into \emph{Context Products}. In this
 study we have analysed the \texttt{airborne}, \texttt{facility},  
 \texttt{instrument\_host} and \texttt{telescope}. Each record is 
 a PDS4-IM product, many metadata, including an PDS4 Logical 
-identifier, a full name, related products (in PDS4), references...
+identifier, a full name, related products (in PDS4), references\todo{I'd
+say let's keep this minimal, just covering what we actually need here}.
 
 \subsection{SANA (Space Assigned Numbers Authority)}
 The SANA is managing registries related to space systems, in 
 coordination with CCSDS (Consultative Committee for Space Data
 Systems). The \emph{Spacecraft Identifier} registry gathers 
 spacecraft metadata (name, identifiers, agency, contact) but is 
-most focussing on the telemetry and telecommand (TMTC) links 
+mostly concerned with the telemetry and telecommand (TMTC) links 
 (identifier, link type, link frequency). We have only used the 
 spacecraft identifier and name.  
 
@@ -298,18 +306,18 @@ spacecraft identifier and name.
 Xephem is an astronomical ephemeris and planetarium software. It
 contains a list of observatories, available from its Github 
 repository\footnote{\url{https://github.com/XEphem/XEphem/blob/main/GUI/xephem/auxil/xephem_sites}}.
-Each record is composed of a name, a location on Earth 
+Each record is composed of a name and a location on Earth 
 (including elevation and time zone).
   
 \subsection{WISeREP (Weizmann Interactive Supernova Data Repository )}
 The WISeREP facility includes lists\footnote{\url{https://www.wiserep.org/aux}} 
-of sites, telescopes and instruments. We analysed its list of telescope 
-in this study. Each record is composed of an identifier, a name, a 
+of sites, telescopes and instruments. We have analysed its list of telescope 
+in this Note. Each record is composed of an identifier, a name, a 
 nickname and other metadata (location, elevation, site, web URL, etc.)
 
 \subsection{SPASE (Space Physics Archive Search and Extract)} 
 The SPASE registry is using the SPASE model \citep{Roberts:2018bi}. 
-It contains records with \emph{Observatory} type, which cover our
+It contains records of the \emph{Observatory} type, which cover our
 scope as explained in section \ref{sec:scope}. The SPASE records 
 are stored as XML trees, and are available from the HPDE (Heliophyiscs
 Data Environment) Github repository\footnote{\url{https://github.com/hpde}},
@@ -326,9 +334,9 @@ The OSCAR tool of the WMO is maintaining several lists concerning
 observation facilities, with Space-based resources\footnote{\url{https://space.oscar.wmo.int/spacecapabilities}}, 
 as well as ground based stations\footnote{\url{https://oscar.wmo.int/surface/\#/}}. 
 We consider these lists since Space Weather (or Space Situational 
-Awareness) is part of the WMO and IVOA scopes. The analysis of these 
+Awareness) is part of both the WMO and IVOA scopes. The analysis of these 
 resources requires filtering to keep only those within the IVOA scope.  
-Each satellite record contains an acronym, a full name as well as many 
+Each satellite record contains an acronym, a full name as well as much 
 metadata related to operations and instruments.  
 
 \subsection{IMCCE/Quaero (Institut de M\'ecanique C\'eleste et de Calcul des \'Eph\'em\'erides)}
@@ -337,15 +345,19 @@ using its SsODNet (Solar system Open Database Network) service. This
 service, called \emph{Quaero} contains several types of records. Using 
 the query \url{https://api.ssodnet.imcce.fr/quaero/1/sso/search?q=type:Spacecraft}, 
 it is possible to access to the list of Spacecraft records. Each 
-records is composed of an identifier, a name, a list of
+record is composed of an identifier, a name, a list of
 aliases, and other metadata.
 
 \subsection{Wikidata}
 Wikidata is a free and open knowledge base, community curated, and 
-based on structured data (RDF based). The record content is not 
-constrained by an outstanding information model. Each record is 
-composed of an identifier, a title, a set of aliases (in several 
-languages). It also has a set of \emph{statements}, composed of properties
+based on structured data following the W3C's Resource Description
+Framework RDF. The record content is not 
+constrained by a detailed information model. Each record is 
+composed of a language-neutral identifier, a human-readable title, 
+and a set of human-readable aliases in several 
+languages\todo{I can't be bothered to look it up myself right now, but: is it
+actually true that wikidata distingusishes a title and aliases?}. 
+It also has a set of \emph{statements}, composed of properties
 (e.g., \emph{is instance of}) linked to a value (e.g., \emph{space 
 observatory}), and a set of \emph{external identifiers}. Observation 
 facilities are retrieved using a set of record classes (\emph{is 
@@ -458,25 +470,27 @@ Within the scope of this work, this implies three types of updates:
 \begin{itemize}
 \item added relevant \emph{is instance of} statements, to ease the 
 record discovery and limit the complexity of the queries (see, e.g., 
-Appendix \ref{appendix:sparql}. 
+Appendix \ref{appendix:sparql}). 
 \item include \emph{external identifiers} statements, when values 
 are missing
 \item define new identifier authorities in Wikidata for lists that 
 are not yet registered to be used as \emph{external identifiers}. 
 \end{itemize}
-The first two items are easy to setup and solve when the record is 
-found. However, is the \emph{is instance of} statement is not 
-properly labeled in th first place, finding the record is not always 
-straightforward as commons names can be used in many other contexts. 
+The first two items are easy to set up and solve when the record is 
+found. However, if the object of the \emph{is instance of} statement is 
+not set as expected, finding the record is not always 
+straightforward, since common names in instrument designations 
+can be used in many other contexts. 
 The latter item (defining new \emph{external identifiers}) is 
 possible through a process\footnote{\url{https://www.wikidata.org/wiki/Wikidata:Property_proposal/Authority_control}}
 defined by Wikidata. 
 
 \section{A Name Resolver for Observation Facilities}
 Using the Wikidata knowledge base, it is possible to build a name
-resolver for observation facilities. A prototype is planned using 
-regular extraction of Wikidata using queries similar to that 
-presented in Appendix \ref{appendix:sparql}. This query provides
+resolver for observation facilities. A prototype is planned that would
+in regular intervals retrieve the relevant 
+Wikidata content using queries similar to the one
+given in Appendix \ref{appendix:sparql}. This query provides
 a JSON document that can be easily ingested into an elastic-search
 data base (or similar) to set a name resolver very similarly to 
 the Quaero service of IMCCE. 
@@ -504,7 +518,7 @@ quality of the statements in Wikidata. Some \emph{is part of}
 statements could be reused in the IVOA-flavoured Wikidata 
 Observation Facility vocabulary to create links between 
 records, but most of those links are yet to be assessed, validated
-or even worse, created.  
+or, even worse, created.  
 
 \section{Discussion}
 This note presents how to use Wikidata to setup a name resolver 
@@ -520,10 +534,10 @@ SPASE groups will be very helpful to start this effort.
 
 The introduction also stated that the instruments mounted or 
 associated to the observation facilities were not in the scope
-of the note. There are much less openly accessible resources
-listing instruments then for observation facilities, and 
-Wikidata is poorly addressing the observation facility to 
-instrument links. Many links are missing. Many instruments
+of the note. There are fewer openly accessible resources
+listing instruments than for observation facilities, and 
+Wikidata is highly incomplete for links between observation facilities
+and instruments; in addition, many instruments
 are not yet present in Wikidata.
 
 Finally, the recent RDA \emph{PID for Instruments} 
