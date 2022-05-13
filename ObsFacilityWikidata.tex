@@ -279,9 +279,8 @@ The NSSDC is a common NASA data centre for space sciences. It maintains
 a list of 
 spacecraft and space platforms grouped by sub-discipline.
 We have used the \emph{Astronomy}, \emph{Planetary-Science} and 
-\emph{Space-Physics} lists. The records are composed of an 
-identifier (most usually, this is its COSPAR-ID), a name, and a
-launch date.
+\emph{Space-Physics} lists. The records include an 
+identifier (most usually, this is its COSPAR-ID) and a name.
 
 \subsection{NASA/PDS (Planetary Data System)}
 The NASA/PDS is the NASA Planetary Science archive, built upon the 
@@ -289,31 +288,28 @@ PDS4-IM. As detailed in section \ref{sec:scope}, it is storing
 observation facility metadata into \emph{Context Products}. In this 
 study we have analysed the \texttt{airborne}, \texttt{facility},  
 \texttt{instrument\_host} and \texttt{telescope}. Each record is 
-a PDS4-IM product, many metadata, including an PDS4 Logical 
-identifier, a full name, related products (in PDS4), references\todo{I'd
-say let's keep this minimal, just covering what we actually need here}.
+a PDS4-IM product, many metadata, including a PDS4 Logical 
+identifier, and a full name.
 
 \subsection{SANA (Space Assigned Numbers Authority)}
 The SANA is managing registries related to space systems, in 
 coordination with CCSDS (Consultative Committee for Space Data
-Systems). The \emph{Spacecraft Identifier} registry gathers 
-spacecraft metadata (name, identifiers, agency, contact) but is 
-mostly concerned with the telemetry and telecommand (TMTC) links 
-(identifier, link type, link frequency). We have only used the 
+Systems). The \emph{Spacecraft Identifier} registry gathers many
+spacecraft metadata but mostly concerning the telemetry and 
+telecommand (TMTC) links. We have only used the 
 spacecraft identifier and name.  
 
 \subsection{Xephem}
 Xephem is an astronomical ephemeris and planetarium software. It
 contains a list of observatories, available from its Github 
 repository\footnote{\url{https://github.com/XEphem/XEphem/blob/main/GUI/xephem/auxil/xephem_sites}}.
-Each record is composed of a name and a location on Earth 
-(including elevation and time zone).
+Each record includes of a name.
   
 \subsection{WISeREP (Weizmann Interactive Supernova Data Repository )}
 The WISeREP facility includes lists\footnote{\url{https://www.wiserep.org/aux}} 
 of sites, telescopes and instruments. We have analysed its list of telescope 
-in this Note. Each record is composed of an identifier, a name, a 
-nickname and other metadata (location, elevation, site, web URL, etc.)
+in this Note. Each record includes an identifier, a name and a 
+nickname.
 
 \subsection{SPASE (Space Physics Archive Search and Extract)} 
 The SPASE registry is using the SPASE model \citep{Roberts:2018bi}. 
@@ -325,9 +321,7 @@ which is organised by \emph{Naming Authority}. Although each naming
 authority may have an Observatory section, most of the Observatory 
 records are currently registered in the SMWG (SPASE Metadata Working
 Group) repository\footnote{\url{https://github.com/hpde/SMWG}}.
-Each observatory records contains an identifier (SPASE URI), a name, 
-a location, an operating time span, as well as other metadata. 
-
+Each observatory records includes an identifier (SPASE URI) and a name. 
 
 \subsection{WMO/Oscar (World Meteorologic Organisation/Observing Systems Capability Analysis and Review Tool)}
 The OSCAR tool of the WMO is maintaining several lists concerning
@@ -336,8 +330,7 @@ as well as ground based stations\footnote{\url{https://oscar.wmo.int/surface/\#/
 We consider these lists since Space Weather (or Space Situational 
 Awareness) is part of both the WMO and IVOA scopes. The analysis of these 
 resources requires filtering to keep only those within the IVOA scope.  
-Each satellite record contains an acronym, a full name as well as much 
-metadata related to operations and instruments.  
+Each satellite record includes an acronym, and a full name.  
 
 \subsection{IMCCE/Quaero (Institut de M\'ecanique C\'eleste et de Calcul des \'Eph\'em\'erides)}
 The IMCCE lab is proposing a name resolver\footnote{\url{https://ssp.imcce.fr/webservices/ssodnet/api/quaero/}} 
@@ -345,8 +338,8 @@ using its SsODNet (Solar system Open Database Network) service. This
 service, called \emph{Quaero} contains several types of records. Using 
 the query \url{https://api.ssodnet.imcce.fr/quaero/1/sso/search?q=type:Spacecraft}, 
 it is possible to access to the list of Spacecraft records. Each 
-record is composed of an identifier, a name, a list of
-aliases, and other metadata.
+record is includes of an identifier, a name, and a list of
+aliases.
 
 \subsection{Wikidata}
 Wikidata is a free and open knowledge base, community curated, and 
@@ -355,9 +348,7 @@ Framework RDF. The record content is not
 constrained by a detailed information model. Each record is 
 composed of a language-neutral identifier, a human-readable title, 
 and a set of human-readable aliases in several 
-languages\todo{I can't be bothered to look it up myself right now, but: is it
-actually true that wikidata distingusishes a title and aliases?}. 
-It also has a set of \emph{statements}, composed of properties
+languages. It also has a set of \emph{statements}, composed of properties
 (e.g., \emph{is instance of}) linked to a value (e.g., \emph{space 
 observatory}), and a set of \emph{external identifiers}. Observation 
 facilities are retrieved using a set of record classes (\emph{is 
