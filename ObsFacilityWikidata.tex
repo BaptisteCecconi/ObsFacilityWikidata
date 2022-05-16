@@ -123,68 +123,14 @@ IVOA architecture \citep{2010ivoa.rept.1123A}.
 
 Several groups have been working on modelling the roles and 
 relationships between elements of measurement or observation devices. 
+Appendix \ref{appendix:models} presents the main models currently 
+available. 
 
-In the field of planetary sciences, the NASA PDS4 information model 
-(PDS4-IM) includes terms to describe an \emph{Observing\_System}, as 
-shown in Figure \ref{fig:pds4-concept-map}, and defined as follows:
-``\emph{The Observing System class describes the entire suite used to 
-collect the data}''. At the time of writing, the list of 
-\texttt{Observing\_System\_Components}\footnote{
-\url{https://pds.nasa.gov/datastandards/documents/im/v1/index_1H00.html\#attribute_pds_observing_system_component_pds_type}}
-is defined as: \emph{Airborne, Aircraft, Artificial Illumination, 
-Balloon, Computer, Facility, Host, Instrument, Laboratory, Literature 
-Search, Naked Eye, Observatory, Spacecraft, Suborbital Rocket, 
-Telescope}, each of which is defined in the PDS4-IM. Observation 
-facilities description records are serialised using so-called 
-\emph{Context Products}. The PDS4 context products are currently available 
-online at: \url{https://pds.nasa.gov/data/pds4/context-pds4/}. This 
-page provides access to  context products like: \emph{facility}, 
-\emph{instrument}, \emph{instrument\_host}, \emph{investigation}, 
-\emph{telescope}, etc. The \emph{Hubble Space Telescope} 
-record\footnote{\protect\url{https://pds.nasa.gov/data/pds4/context-pds4/instrument_host/spacecraft.hst_1.3.xml}} 
-is providing a series of metadata, including an identifier, a title, 
-a reference, a description, and many internal references to other 
-context products registered in the PDS4 database, including 
-observed targets, and investigations (observation campaigns), hosted 
-instruments, etc.
-
-\begin{figure}
-\centering\includegraphics[width=0.9\textwidth]{pds4-concept-map.jpg}
-\caption{PDS4 Information Model Concept Map, including the 
-\emph{Observing\_System} section. Figure take from PDS4 IM v1.17.0.0 
-\protect\citep{pds4-im-v1H00}.}\label{fig:pds4-concept-map}
-\end{figure}
-
-The PDS4-IM description has been used to prepare a preliminary study of
-an extension of VOResource \citep{2018ivoa.spec.0625P}, called VOFacility, 
-which was presented at the ADASS conference in 2015 \citep{Louys:2015to} 
-and is available at \url{https://wiki.ivoa.net/internal/IVOA/IvoaSemantics/VOFacility.xsd}. 
-This model defines various \emph{observation facility} types: 
-\emph{Observatory, Spacecraft, SpaceMission, Telescope, FieldAnalog,
-LabExperiment, Simulation}. This list encompasses the scope of the 
-\emph{observation facility} in this document.
-
-In the frame of Earth Observation (EO), the Open Geospatial Consortium
-(OGC) has defined a SensorML (Sensor Meta Language) \citep{ogc-sensorml} 
-allowing to describe sensors and instruments. One of the application of 
-SensorML is the ``Discovery of sensor, sensor systems, and
-processes.''\footnote{\url{http://wiki.gis.com/wiki/index.php/SensorML}} 
-The \emph{PhysicalSystem} type of SensorML is the closest model type to
-our observation facility term.  However, it mixes instruments, sensors 
-and platform into a single compound type, which does not match our 
-typology mapping. 
-
-Finally, in the frame of heliophysics, the Space Physics Archive Search
-and Extract (SPASE) data model \citep{Roberts:2018bi} has two different
-concepts for observatories and instruments: observatories are defined 
-with a location (specified either with ground coordinates, or with a 
-region in space for spacecraft), whereas instruments are defined with 
-a type of measurement. 
-
-In this document, we use the latter definition, that is: an 
+In this document, we use a definition close to that of SPASE 
+(see Section \ref{appendx:models:spase}), that is: an 
 \emph{observation facility} is an apparatus bearing one or several 
 instruments (measuring devices, modelling codes, etc.), which is 
-can be defined with a location. In that sense, we deal with observatories, 
+can be defined with a location, or a set of locations. In that sense, we deal with observatories, 
 telescopes in observatories, spacecraft, space probes, space missions 
 (as a group of spacecraft), etc. We also include laboratories or 
 facilities conducting  experiments, such as supporting observation on 
@@ -373,7 +319,7 @@ relevant subset of metadata available in the records.
 \hline
 Record URL & \url{https://www.wikidata.org/wiki/Q2513}\\
 Title      & Hubble Space Telescope \\
-Aliases    & HST, Hubble, Hubbleteleskop, t\'elescope Hubble, Telescopio Espacial Hubble, ???, telescopio spaziale Hubble, etc\\
+Aliases    & HST, Hubble, Hubbleteleskop, t\'elescope Hubble, Telescopio Espacial Hubble, TEH, telescopio spaziale Hubble, etc\\
 \multicolumn{2}{c}{\sl selected statements}\\
 is instance of & space observatory \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
@@ -545,6 +491,85 @@ PIDs are maintained by the resource maintainer, so that they
 are timely and adequately curated and updated. 
 
 \appendix
+\section{Metadata Models}
+\label{appendix:models}
+
+\subsection{IPDA - PDS4 Information Model}
+The PDS4-IM (NASA Planetary Data System version 4 Information Model) 
+is the NASA planetary science archive underlying information
+model. It can be considered as a serialization of the OAIS ---Open 
+Archival Information System, \citep{iso:oais}--- model \citep{Hughes:2017bt}.  
+It is managed in the frame of the IPDA (International Planetary 
+Data Alliance) and is used by the ESA and JAXA planetary science 
+archives. 
+
+The PDS4-IM includes terms to describe an \emph{Observing\_System}, see 
+Figure \ref{fig:pds4-concept-map}, defined as follows:
+``\emph{The Observing System class describes the entire suite used to 
+collect the data}''. At the time of writing, the list of 
+\texttt{Observing\_System\_Components}\footnote{
+\url{https://pds.nasa.gov/datastandards/documents/im/v1/index_1H00.html\#attribute_pds_observing_system_component_pds_type}}
+is defined as: ``\emph{Airborne, Aircraft, Artificial Illumination, 
+Balloon, Computer, Facility, Host, Instrument, Laboratory, Literature 
+Search, Naked Eye, Observatory, Spacecraft, Suborbital Rocket, 
+Telescope}'', each of which is defined in the PDS4-IM. 
+
+Every element in the archive system is a product. Observation 
+facilities description records are serialised using so-called 
+\emph{Context Products}. The PDS4 context
+products are currently available online at: 
+\url{https://pds.nasa.gov/data/pds4/context-pds4/}. This 
+page provides access to context product types like: \emph{facility}, 
+\emph{instrument}, \emph{instrument\_host}, \emph{investigation}, 
+\emph{telescope}, etc. The \emph{Hubble Space Telescope} 
+record\footnote{\protect\url{https://pds.nasa.gov/data/pds4/context-pds4/instrument_host/spacecraft.hst_1.3.xml}} 
+is providing a series of metadata, including an identifier, a title, 
+a reference, a description, and many internal references to other 
+context products registered in the PDS4 database, including 
+observed targets, and investigations (observation campaigns), hosted 
+instruments, etc.
+
+\begin{figure}
+\centering\includegraphics[width=0.9\textwidth]{pds4-concept-map.jpg}
+\caption{PDS4 Information Model Concept Map, including the 
+\emph{Observing\_System} section. Figure take from PDS4 IM v1.17.0.0 
+\protect\citep{pds4-im-v1H00}.}\label{fig:pds4-concept-map}
+\end{figure}
+
+\subsection{IVOA -- VOFacility}
+
+The PDS4-IM description has been used to prepare a preliminary study of
+an extension of VOResource \citep{2018ivoa.spec.0625P}, called VOFacility, 
+which was presented at the ADASS conference in 2015 \citep{Louys:2015to} 
+and is available at \url{https://wiki.ivoa.net/internal/IVOA/IvoaSemantics/VOFacility.xsd}. 
+This model defines various \emph{observation facility} types: 
+\emph{Observatory, Spacecraft, SpaceMission, Telescope, FieldAnalog,
+LabExperiment, Simulation}. 
+
+
+\subsection{OGC - SensorML Model}
+In the frame of Earth Observation (EO), the Open Geospatial Consortium
+(OGC) has defined a SensorML (Sensor Meta Language) \citep{ogc-sensorml} 
+allowing to describe sensors and instruments. One of the application of 
+SensorML is the ``\emph{Discovery of sensor, sensor systems, and
+processes}.''\footnote{\url{http://wiki.gis.com/wiki/index.php/SensorML}} 
+The \emph{PhysicalSystem} type of SensorML is the closest model type to
+our observation facility term.  However, it mixes instruments, sensors 
+and platform into a single compound type, which does not match our 
+typology mapping. 
+
+\subsection{IHDEA - SPASE Model}
+\label{appendx:models:spase}
+Finally, in the frame of heliophysics, the Space Physics Archive Search
+and Extract (SPASE) data model\footnote{Latest version (2.4.0 at the 
+time of writing): \url{https://spase-group.org/data/schema/index.html}} 
+\citep{Roberts:2018bi,spase-model} has two different
+concepts for observatories and instruments: observatories are defined 
+with a location (specified either with ground coordinates, or with a 
+region in space for spacecraft), whereas instruments are defined with 
+a type of measurement. 
+
+
 \section{List Example Records}
 \label{appendix:lists}
 \subsection{AAS Record Examples}
