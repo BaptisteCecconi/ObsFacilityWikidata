@@ -401,7 +401,29 @@ is part of & Mauna Kea Observatories\\
 ISNI       & 0000 0004 0601 3064\\
 ROR ID     & 05xq4gr47 \\
 \hline
+\hline
+\multicolumn{2}{l}{Example 6. EHT}\\
+\hline
+Record URL & \url{https://www.wikidata.org/wiki/Q3944788}\\
+Title      & Event Horizon Telescope\\
+Aliases    & EHT\\
+\multicolumn{2}{c}{\sl selected statements}\\
+is instance of & very-long-baseline interferometry \\
+is instance of & research collaboration \\
+has part or parts & Atacama Large Millimeter Array\\
+has part or parts & Atacama Pathfinder Experiment\\
+has part or parts & IRAM 30-meter telescope\\
+has part or parts & James Clerk Maxwell Telescope\\
+has part or parts & Large Millimeter Telescope\\
+has part or parts & Submillimeter Array\\
+has part or parts & Heinrich Hertz Submillimeter Telescope\\
+has part or parts & South Pole Telescope\\ 
+\multicolumn{2}{c}{\sl selected identifiers}\\
+ISNI       & 0000 0004 0601 3064\\
+ROR ID     & 05xq4gr47 \\
+\hline
 \end{longtable}
+
 
 Wikidata can be updated to improve the quality of the knowledge.
 Within the scope of this work, this implies three types of updates:
@@ -449,17 +471,55 @@ Using the same examples as in the previous section we would have:
 \item Q320638: solar-and-heliospheric-observatory
 \item Q49445: cosmic-background-explorer
 \item Q1031946: canada-france-hawaii-telescope
+\item Q3944788: event-horizon-telescope
 \end{itemize}
 In order to build such a list, there is a need to a Wikidata query, 
 or a small set of those, which select the records of interest for
 our purpose.
 
 However, the current limitation of this solution is the heterogeneous 
-quality of the statements in Wikidata. Some \emph{is part of} 
-statements could be reused in the IVOA-flavoured Wikidata 
-Observation Facility vocabulary to create links between 
-records, but most of those links are yet to be assessed, validated
-or, even worse, created. 
+quality of the statements in Wikidata. The \emph{is part of} 
+statements will be reused in the IVOA-flavoured Wikidata Observation 
+Facility vocabulary to create links between records. A few examples of 
+\emph{part of} and \emph{has part} relations are shown below:
+{\small \noindent\begin{longtable}{p{.35\textwidth}p{.65\textwidth}}
+\textbf{Label} & \textbf{Relations}\\
+\hline
+venera-2  & \emph{part of} venera\\
+mount-wilson-observatory & \emph{has part} chara-array\\
+                         & \emph{has part} infrared-spatial-interferometer\\
+                         & \emph{has part} hocker-telescope\\
+                         & \emph{has part} 60-inch-telescope\\
+                         & \emph{has part} 150-foot-solar-tower\\
+canada-france-hawaii-telescope & \emph{part of} mauna-kea-observatories\\
+event-horizon-telescope & \emph{has part} atacama-large-millimeter-array\\
+                        & \emph{has part} atacama-pathfinder-experiment\\
+                        & \emph{has part} iram-30-meter-telescope\\
+                        & \emph{has part} james-clerk-maxwell-telescope\\
+                        & \emph{has part} large-millimeter-telescope\\
+                        & \emph{has part} submillimeter-array\\
+                        & \emph{has part} heinrich-hertz-submillimeter-telescope\\
+                        & \emph{has part} south-pole-telescope\\
+european-vlbi-network   & \emph{has part} effelsberg-100-m-radio-telescope\\
+                        & \emph{has part} westerbork-synthesis-radio-telescope\\
+                        & \emph{has part} lovell-telescope\\
+                        & \emph{has part} cambridge-merlin-telescope\\
+                        & \emph{has part} mark-ii\\
+                        & \emph{has part} medicina-32-m-radio-telescope\\
+                        & \emph{has part} onsala-space-observatory-20-m-telescope\\
+                        & \emph{has part} onsala-space-observatory-25-m-telescope\\
+                        & \emph{has part} noto-32-m-radio-telescope\\
+                        & \emph{has part} torun-rt4\\
+                        & \emph{has part} metsahovi-14m-radio-telescope\\
+                        & \emph{has part} sheshan-25m-radio-telescope\\
+                        & \emph{has part} nanshan-radio-telescope\\
+                        & \emph{has part} yebes-observatory-rt40m\\
+                        & \emph{has part} wettzell-20m-radio-telescope\\
+                        & \emph{has part} madrid-deep-space-communication-complex\\
+                        & \emph{has part} hartebeesthoek-radio-astronomy-observatory\\
+                        & \emph{has part} arecibo-radio-telescope\\
+\hline
+\end{longtable}}
 
 \section{Discussion}
 This note presents how to use Wikidata to setup a name resolver 
@@ -468,7 +528,7 @@ an Observation Facility vocabulary using the same knowledge base.
 
 As stated in the introduction, this note is not addressing the 
 information model required to describe observation facilities. 
-Such modeling effort should be done to formalise the metadata 
+Such modelling effort should be done to formalise the metadata 
 associated to the observation facilities, as well as linking 
 with associated instruments. The work done by the NASA/PDS4 or
 SPASE groups will be very helpful to start this effort. 
