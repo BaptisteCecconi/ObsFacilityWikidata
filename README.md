@@ -2,8 +2,8 @@ This document describes how [Wikidata](https://www.wikidata.org) can
 be used for an Observation Facility vocabulary in the [Virtual 
 Observatory](https://ivoa.net).
 
-Stable versions of this document are available through the [IVOA
-document repository](http://ivoa.net/documents/).
+Once the document is submitted to the IVOA, stable versions
+will be available through the [IVOA document repository](http://ivoa.net/documents/).
 
 To build a PDF version this document, you will need a reasonably
 complete LaTeX installation, a sufficiently capable `make`, preferably
@@ -11,4 +11,4 @@ complete LaTeX installation, a sufficiently capable `make`, preferably
 [rsvg-convert](https://wiki.gnome.org/Projects/LibRsvg). For further
 details, see [ivoatexDoc](https://ivoa.net/documents/Notes/IVOATex/).
 
-This document is distributed under CC-BY-SA.
+This document is distributed under CC-BY.
