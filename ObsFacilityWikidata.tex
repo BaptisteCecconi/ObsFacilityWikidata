@@ -4,6 +4,10 @@
 \usepackage{longtable}
 \usepackage{tabularx}
 \usepackage{todonotes}
+\usepackage{textcomp}
+\usepackage{listings}
+\lstloadlanguages{SQL, SPARQL}    
+\lstset{flexiblecolumns=true,stringstyle=\ttfamily,showstringspaces=False}
 
 \title{Using Wikidata for an Observation Facility Vocabulary}
 
@@ -21,8 +25,9 @@
 
 % \previousversion[????URL????]{????Concise Document Label????}
 \previousversion{This is the first public release}
-       
 
+   
+  
 \begin{document}
 \begin{abstract}
 This document presents how Wikidata can be used for defining a 
@@ -201,7 +206,7 @@ a web URL and a set of metadata describing the facility (\emph{high\_energy},
 \emph{optical}, \emph{solar}, \emph{space}...)
 
 \subsection{IAU-MPC (International Astronomical Union -- Minor Planet Center)}
-The IAU-MPC observatory code list\footnote{\url{https://www.minorplanetcenter.net/iau/lists/ObsCodes.html}}
+The IAU-MPC observatory code list\footnote{\protect\url{https://www.minorplanetcenter.net/iau/lists/ObsCodes.html}}
 references observatories used for minor planet and solar system small bodies
 science, which includes most of the ground based observatories operating in 
 optical and infrared. Each record is composed of an identifier (observatory
@@ -210,25 +215,25 @@ coordinates are replaced by \texttt{x} characters.
 
 \subsection{IRAF (Image Reduction and Analysis Facility)}
 IRAF is an astronomical data analysis software. It contains a list of 
-observation facilities\footnote{\url{http://tdc-www.harvard.edu/iraf/rvsao/bcvcorr/obsdb.html}}.
+observation facilities\footnote{\protect\url{http://tdc-www.harvard.edu/iraf/rvsao/bcvcorr/obsdb.html}}.
 Each record is composed of an identifier, a full name, a location and 
 a timezone identifier. 
+
 
 \subsection{NASA/NAIF (Navigation and Ancillary Information System)}
 The NASA/NAIF team is maintaining orbital and pointing information for 
 space missions, using the NASA/SPICE library. The NAIF toolkit includes
 several nomenclatures composed of pairs of identifier (numeric) and 
-names. In the frame of this study, the NAIF list of spacecraft\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Spacecraft}}, and ground 
-stations\footnote{\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Ground\%20Stations.}}
+names. In the frame of this study, the NAIF list of spacecraft\footnote{\protect\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Spacecraft}}, and ground 
+stations\footnote{\protect\url{https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html\#Ground\%20Stations.}}
 have been explored.
 
 \subsection{NSSDC (National Space Science Data Centre)}
-The NSSDC is a common NASA data centre for space sciences. It maintains
-a list of 
-spacecraft and space platforms grouped by sub-discipline.
-We have used the \emph{Astronomy}, \emph{Planetary-Science} and 
-\emph{Space-Physics} lists. The records include an 
-identifier (most usually, this is its COSPAR-ID) and a name.
+The NSSDC is a common NASA data centre for space sciences. They maintain a 
+list of spacecraft and space platforms grouped by sub-discipline. We have 
+used the \emph{Astronomy}, \emph{Planetary-Science} and \emph{Space-Physics} 
+lists. The records include an identifier (most usually, this is its 
+COSPAR-ID) and a name.
 
 \subsection{NASA/PDS (Planetary Data System)}
 The NASA/PDS is the NASA Planetary Science archive, built upon the 
@@ -318,11 +323,11 @@ relevant subset of metadata available in the records.
 \hline
 \multicolumn{2}{l}{\bf Example 1. Hubble Space Telescope}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q2513}\\
-Title      & Hubble Space Telescope \\
+URI        & \url{https://www.wikidata.org/wiki/Q2513}\\
+Label      & Hubble Space Telescope \\
 Aliases    & HST, Hubble, Hubbleteleskop, t\'elescope Hubble, Telescopio Espacial Hubble, TEH, telescopio spaziale Hubble, etc\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & space observatory \\
+is-a & space observatory \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 COSPAR ID  & 1990-073B \\
 NSSDCA ID  & 1990-073B \\
@@ -334,13 +339,13 @@ SCN ID     & 20580 \\
 \hline
 \multicolumn{2}{l}{Example 2. Venera 2}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q719617}\\
-Title      & Venera 2\\
+URI & \url{https://www.wikidata.org/wiki/Q719617}\\
+label      & Venera 2\\
 Aliases    & 3MV-4 No.4, etc\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & space probe \\
-is instance of & 3MV (Soviet unmanned probe design) \\
-is part of     & Venera \\
+is-a & space probe \\
+is-a & 3MV (Soviet unmanned probe design) \\
+is-part-of     & Venera \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 COSPAR ID  & 1965-091A \\
 NSSDCA ID  & 1965-091A \\
@@ -349,11 +354,11 @@ SCN ID     & 01730 \\
 \hline
 \multicolumn{2}{l}{Example 3. Mount Wilson Observatory}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q466863}\\
-Title      & Mount Wilson Observatory\\
+URI & \url{https://www.wikidata.org/wiki/Q466863}\\
+Label      & Mount Wilson Observatory\\
 Aliases    & Observatoire du Mount Wilson, Mount Wilson, Mount-Wilson-Observatorium, Osservatorio di Mount Wilson, etc.\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & astronomical observatory \\
+is-a & astronomical observatory \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 ISNI       & 0000 0001 2168 8877\\
 IAU-MPC ID & 672\\
@@ -362,11 +367,11 @@ ROR ID     & 03xvqcz58\\
 \hline
 \multicolumn{2}{l}{Example 4. SOHO}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q320638}\\
-Title      & Solar and Heliospheric Observatory\\
+URI & \url{https://www.wikidata.org/wiki/Q320638}\\
+label      & Solar and Heliospheric Observatory\\
 Aliases    & SOHO, Sonde SOHO, Solar Heliospheric Observatory, Observatorio Solar y Heliosferico, etc.\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & space observatory \\
+is-a & space observatory \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 COSPAR ID  & 1995-065A \\
 NSSDCA ID  & 1995-065A \\
@@ -377,12 +382,12 @@ SCN        & 23726\\
 \hline
 \multicolumn{2}{l}{Example 5. COBE}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q49445}\\
-Title      & Cosmic Background Explorer\\
+URI & \url{https://www.wikidata.org/wiki/Q49445}\\
+Label      & Cosmic Background Explorer\\
 Aliases    & COBE, Explorer 66, etc.\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & space observatory \\
-is instance of & cosmic microwave background experiment \\
+is-a & space observatory \\
+is-a & cosmic microwave background experiment \\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 COSPAR ID  & 1989-089A \\
 NSSDCA ID  & 1989-089A \\
@@ -391,13 +396,13 @@ SCN        & 20322\\
 \hline
 \multicolumn{2}{l}{Example 5. CFHT}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q1031946}\\
-Title      & Canada-France-Hawaii Telescope\\
+URI & \url{https://www.wikidata.org/wiki/Q1031946}\\
+Label      & Canada-France-Hawaii Telescope\\
 Aliases    & observatoire Canada-France-Hawa\"i, T\'elescope Canada-France-Hawaii, Tcfh, etc.\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & astronomical observatory \\
-is instance of & optical telescope \\
-is part of & Mauna Kea Observatories\\
+is-a & astronomical observatory \\
+is-a & optical telescope \\
+is-part-of & Mauna Kea Observatories\\
 \multicolumn{2}{c}{\sl selected identifiers}\\
 ISNI       & 0000 0004 0601 3064\\
 ROR ID     & 05xq4gr47 \\
@@ -405,20 +410,20 @@ ROR ID     & 05xq4gr47 \\
 \hline
 \multicolumn{2}{l}{Example 6. EHT}\\
 \hline
-Record URL & \url{https://www.wikidata.org/wiki/Q3944788}\\
-Title      & Event Horizon Telescope\\
+URI & \url{https://www.wikidata.org/wiki/Q3944788}\\
+Label      & Event Horizon Telescope\\
 Aliases    & EHT\\
 \multicolumn{2}{c}{\sl selected statements}\\
-is instance of & very-long-baseline interferometry \\
-is instance of & research collaboration \\
-has part or parts & Atacama Large Millimeter Array\\
-has part or parts & Atacama Pathfinder Experiment\\
-has part or parts & IRAM 30-meter telescope\\
-has part or parts & James Clerk Maxwell Telescope\\
-has part or parts & Large Millimeter Telescope\\
-has part or parts & Submillimeter Array\\
-has part or parts & Heinrich Hertz Submillimeter Telescope\\
-has part or parts & South Pole Telescope\\ 
+is-a & very-long-baseline interferometry \\
+is-a & research collaboration \\
+has-part & Atacama Large Millimeter Array\\
+has-part & Atacama Pathfinder Experiment\\
+has-part & IRAM 30-meter telescope\\
+has-part & James Clerk Maxwell Telescope\\
+has-part & Large Millimeter Telescope\\
+has-part & Submillimeter Array\\
+has-part & Heinrich Hertz Submillimeter Telescope\\
+has-part & South Pole Telescope\\ 
 \multicolumn{2}{c}{\sl selected identifiers}\\
 ISNI       & 0000 0004 0601 3064\\
 ROR ID     & 05xq4gr47 \\
@@ -459,7 +464,7 @@ the Quaero service of IMCCE.
 \section{A Vocabulary for Observation Facilities}
 An observation facility vocabulary could be built using Wikidata
 as an external knowledge base, similarly to the \emph{IVOA-flavoured 
-UAT} vocabulary\footnote{\url{https://www.ivoa.net/rdf/uat/2021-02-11/uat.html}}.
+UAT} vocabulary\footnote{\url{https://www.ivoa.net/rdf/uat}}.
 
 The internal Wikidata identifier would be hidden to the user, which 
 would use the record title as a human readable identifier (with the 
@@ -474,51 +479,55 @@ Using the same examples as in the previous section we would have:
 \item Q1031946: canada-france-hawaii-telescope
 \item Q3944788: event-horizon-telescope
 \end{itemize}
-In order to build such a list, there is a need to a Wikidata query, 
-or a small set of those, which select the records of interest for
-our purpose.
+In order to build such a list, there is a need to build a Wikidata 
+query, which select the records of interest for our purpose.
 
 However, the current limitation of this solution is the heterogeneous 
-quality of the statements in Wikidata. The \emph{is part of} 
+quality of the statements in Wikidata. The \emph{is-part-of} 
 statements will be reused in the IVOA-flavoured Wikidata Observation 
 Facility vocabulary to create links between records. A few examples of 
 \emph{part of} and \emph{has part} relations are shown below:
 {\small \noindent\begin{longtable}{p{.35\textwidth}p{.65\textwidth}}
 \textbf{Label} & \textbf{Relations}\\
 \hline
-venera-2  & \emph{part of} venera\\
-mount-wilson-observatory & \emph{has part} chara-array\\
-                         & \emph{has part} infrared-spatial-interferometer\\
-                         & \emph{has part} hocker-telescope\\
-                         & \emph{has part} 60-inch-telescope\\
-                         & \emph{has part} 150-foot-solar-tower\\
-canada-france-hawaii-telescope & \emph{part of} mauna-kea-observatories\\
-event-horizon-telescope & \emph{has part} atacama-large-millimeter-array\\
-                        & \emph{has part} atacama-pathfinder-experiment\\
-                        & \emph{has part} iram-30-meter-telescope\\
-                        & \emph{has part} james-clerk-maxwell-telescope\\
-                        & \emph{has part} large-millimeter-telescope\\
-                        & \emph{has part} submillimeter-array\\
-                        & \emph{has part} heinrich-hertz-submillimeter-telescope\\
-                        & \emph{has part} south-pole-telescope\\
-european-vlbi-network   & \emph{has part} effelsberg-100-m-radio-telescope\\
-                        & \emph{has part} westerbork-synthesis-radio-telescope\\
-                        & \emph{has part} lovell-telescope\\
-                        & \emph{has part} cambridge-merlin-telescope\\
-                        & \emph{has part} mark-ii\\
-                        & \emph{has part} medicina-32-m-radio-telescope\\
-                        & \emph{has part} onsala-space-observatory-20-m-telescope\\
-                        & \emph{has part} onsala-space-observatory-25-m-telescope\\
-                        & \emph{has part} noto-32-m-radio-telescope\\
-                        & \emph{has part} torun-rt4\\
-                        & \emph{has part} metsahovi-14m-radio-telescope\\
-                        & \emph{has part} sheshan-25m-radio-telescope\\
-                        & \emph{has part} nanshan-radio-telescope\\
-                        & \emph{has part} yebes-observatory-rt40m\\
-                        & \emph{has part} wettzell-20m-radio-telescope\\
-                        & \emph{has part} madrid-deep-space-communication-complex\\
-                        & \emph{has part} hartebeesthoek-radio-astronomy-observatory\\
-                        & \emph{has part} arecibo-radio-telescope\\
+\hline
+venera-2  & \emph{is-part-of} venera\\
+\hline
+mount-wilson-observatory & \emph{has-part} chara-array\\
+                         & \emph{has-part} infrared-spatial-interferometer\\
+                         & \emph{has-part} hocker-telescope\\
+                         & \emph{has-part} 60-inch-telescope\\
+                         & \emph{has-part} 150-foot-solar-tower\\
+\hline
+canada-france-hawaii-telescope & \emph{is-part-of} mauna-kea-observatories\\
+\hline
+event-horizon-telescope & \emph{has-part} atacama-large-millimeter-array\\
+                        & \emph{has-part} atacama-pathfinder-experiment\\
+                        & \emph{has-part} iram-30-meter-telescope\\
+                        & \emph{has-part} james-clerk-maxwell-telescope\\
+                        & \emph{has-part} large-millimeter-telescope\\
+                        & \emph{has-part} submillimeter-array\\
+                        & \emph{has-part} heinrich-hertz-submillimeter-telescope\\
+                        & \emph{has-part} south-pole-telescope\\
+\hline
+european-vlbi-network   & \emph{has-part} effelsberg-100-m-radio-telescope\\
+                        & \emph{has-part} westerbork-synthesis-radio-telescope\\
+                        & \emph{has-part} lovell-telescope\\
+                        & \emph{has-part} cambridge-merlin-telescope\\
+                        & \emph{has-part} mark-ii\\
+                        & \emph{has-part} medicina-32-m-radio-telescope\\
+                        & \emph{has-part} onsala-space-observatory-20-m-telescope\\
+                        & \emph{has-part} onsala-space-observatory-25-m-telescope\\
+                        & \emph{has-part} noto-32-m-radio-telescope\\
+                        & \emph{has-part} torun-rt4\\
+                        & \emph{has-part} metsahovi-14m-radio-telescope\\
+                        & \emph{has-part} sheshan-25m-radio-telescope\\
+                        & \emph{has-part} nanshan-radio-telescope\\
+                        & \emph{has-part} yebes-observatory-rt40m\\
+                        & \emph{has-part} wettzell-20m-radio-telescope\\
+                        & \emph{has-part} madrid-deep-space-communication-complex\\
+                        & \emph{has-part} hartebeesthoek-radio-astronomy-observatory\\
+                        & \emph{has-part} arecibo-radio-telescope\\
 \hline
 \end{longtable}}
 
@@ -541,6 +550,23 @@ listing instruments than for observation facilities, and
 Wikidata is highly incomplete for links between observation facilities
 and instruments; in addition, many instruments
 are not yet present in Wikidata.
+
+However is it important to understand the community engagement 
+underlying Wikidata is a strength as much as a weakness. The 
+general public engagement allows to have a very complete  
+knowledge base, with regularly curated records and links. However
+there is no coordination for the curation nor for the consistency
+of the properties used for linking resources. Each contributor may
+have his own views on the way to link resources, and they may not 
+agree to update their resource-linking scheme to the IVOA use-case.
+Indeed, we have encountered difficulties to find a query allowing 
+to retrieve a clean set of resources for our purpose. We worked on 
+Wikidata content, first to curate resources (with success in general), 
+and then to update properties or labels to reduce the overhead (with
+less success in this case). Some Wikidata contributors kept removing 
+our contributions, even after explaining the rationale of the changes. 
+Hence, there is a probably a need for an external knowledge base to 
+keep track of IVOA-curated resources.  
 
 Finally, the recent RDA \emph{PID for Instruments} 
 recommendation\footnote{\url{https://www.rd-alliance.org/node/57186/outputs}} 
@@ -661,11 +687,95 @@ Sa.COBE   & COBE, COsmic Background Explorer satellite \\
 Sa.SOHO   & SOHO, SOlar Heliospheric Observatory satellite
 \end{tabularx}}
 
-\section{Wikidata SparQL query}
+\section{Wikidata SPARQL query}
 \label{appendix:sparql}
 At the time of writing of this note, the following SparQL query
 is used to retrieve WikiData records:  
-{\tiny{\verbatiminput{sparql_query.txt}}}
+{\tiny
+\lstinputlisting[language=SPARQL]{sparql_query.txt}
+}
+ 
+\section{Observation Facility names in the IVOA}
+
+Three sets of IVOA services are sharing observation facility names: 
+the Registry (in the \texttt{facility} keyword of \texttt{VOResource}), 
+ObsTAP services (\texttt{facility} keyword) and EPN-TAP services 
+(\texttt{instrument\_host\_name} keyword). Data providers have been 
+using non-standard names for observation facilities. For some services 
+the \texttt{instrument} or \texttt{instrument\_name} keyword also contains 
+observation facility information. In order to retrieve relevant terms, the 
+query should retrieve distinct pairs of  \texttt{facility}  and  
+\texttt{instrument} names.
+
+Using RegTAP, we can retrieve this information, using the following ADQL queries:
+
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT 
+  t1.ivoid AS ivoid, 
+  t1.detail_value AS facility, 
+  t2.detail_value AS instrument 
+FROM rr.res_detail AS t1 
+  INNER JOIN rr.res_detail AS t2 
+  ON t1.ivoid = t2.ivoid 
+WHERE t1.detail_xpath='/facility' 
+  AND t2.detail_xpath='/instrument'
+\end{lstlisting}
+
+For ObsTAP services, the first request retrieves the list of TAP
+servers including \texttt{ivoa.obs\_core} table:
+
+\begin{lstlisting}[language=SQL]
+SELECT table_name, access_url, ivoid 
+FROM ( 
+  SELECT ivoid, table_name 
+  FROM rr.res_table 
+  WHERE table_name = 'ivoa.obscore'
+) AS ivotables
+  NATURAL JOIN rr.capability
+  NATURAL JOIN rr.interface 
+WHERE standard_id = 'ivo://ivoa.net/std/tap' 
+  AND intf_role='std'
+\end{lstlisting}
+
+Then, the following ADQL queries shall be sent to all TAP server, 
+using the list of \texttt{access\_url}. The \texttt{ivoa.obs\_core} 
+tables are queried as follows: 
+
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT 
+  facility_name AS facility, 
+  instrument_name AS instrument 
+FROM ivoa.obscore
+\end{lstlisting}
+
+Finally for EPN-TAP services, the first request retrieves the list of TAP
+servers including \texttt{epn\_core} tables (including several standard-id 
+values and erroneous values actually present in the registry): 
+
+\begin{lstlisting}[language=SQL]
+SELECT table_name, access_url, ivoid 
+FROM ( 
+  SELECT ivoid, table_name, table_utype 
+  FROM rr.res_table 
+  WHERE table_utype LIKE 'ivo://vopdc.obspm/std/epncore%' 
+    OR table_utype LIKE 'ivo://ivoa.net/std/epntap#table-2.%' 
+    OR table_utype='ivo.//vopdc.obspm/std/epncore#schema-2.0'
+  ) AS epntables
+NATURAL JOIN rr.capability
+NATURAL JOIN rr.interface 
+WHERE standard_id = 'ivo://ivoa.net/std/tap' 
+  AND intf_role='std'
+\end{lstlisting}
+
+Then, the following ADQL queries shall be sent to all TAP server, 
+using the list of \texttt{access\_url}. The \texttt{epn\_core} 
+tables are queried as follows: 
+
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT instrument_host_name, instrument_name 
+FROM <table>
+\end{lstlisting}
+replacing \texttt{<table>} by the actual table name.
 
 
 \section{Changes from Previous Versions}
