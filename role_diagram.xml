@@ -38,7 +38,9 @@ of the various sections) to have the box centered.
 <archdiag xmlns="http://ivoa.net/archdiag">
 
 	<rec name="ObsCore" x="619" y="180" w="52"/>
-	<prerec name="EPN-TAP" x="617.5" y="205" w="55"/>
+	<rec name="EPN-TAP" x="617.5" y="205" w="55"/>
+    
+    <rec name="VOResource" x="64.5" y="155" w="71"/>
 
 	<rec name="Vocabularies" x="168.5" y="335" w="73"/>
 
