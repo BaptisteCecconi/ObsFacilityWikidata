@@ -2,26 +2,30 @@ PREFIX schema: <http://schema.org/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
 PREFIX wikibase: <http://wikiba.se/ontology#>
 PREFIX bd: <http://www.bigdata.com/rdf#>
-"""
 
-select_count = """
-SELECT  
-     ( COUNT ( DISTINCT ?item ) as ?count )
-"""
-select_main = """
 SELECT
   ?item     
   ?itemLabel
   ?itemDescription
-  (GROUP_CONCAT(DISTINCT ?Unified_Astro_Thesaurus_ID; SEPARATOR="|") AS ?all_Unified_Astro_Thesaurus_ID)
-  (GROUP_CONCAT(DISTINCT ?COSPAR_ID; SEPARATOR="|") AS ?all_COSPAR_ID)
-  (GROUP_CONCAT(DISTINCT ?NAIF_ID; SEPARATOR="|") AS ?all_NAIF_ID)
-  (GROUP_CONCAT(DISTINCT ?NSSDCA_ID; SEPARATOR="|") AS ?all_NSSDCA_ID)
-  (GROUP_CONCAT(DISTINCT ?Minor_Planet_Center_observatory_ID; SEPARATOR="|") AS ?all_Minor_Planet_Center_observatory_ID)
-  (GROUP_CONCAT(DISTINCT ?alias; SEPARATOR="|") AS ?aliases)
-"""
+  ( GROUP_CONCAT ( 
+    DISTINCT ?Unified_Astro_Thesaurus_ID; 
+    SEPARATOR="|" ) AS ?all_Unified_Astro_Thesaurus_ID )
+  ( GROUP_CONCAT ( 
+    DISTINCT ?COSPAR_ID; 
+    SEPARATOR="|" ) AS ?all_COSPAR_ID )
+  ( GROUP_CONCAT ( 
+    DISTINCT ?NAIF_ID; 
+    SEPARATOR="|" ) AS ?all_NAIF_ID )
+  ( GROUP_CONCAT ( 
+    DISTINCT ?NSSDCA_ID; 
+    SEPARATOR="|" ) AS ?all_NSSDCA_ID )
+  ( GROUP_CONCAT ( 
+    DISTINCT ?Minor_Planet_Center_observatory_ID; 
+    SEPARATOR="|" ) AS ?all_Minor_Planet_Center_observatory_ID )
+  ( GROUP_CONCAT ( 
+    DISTINCT ?alias; 
+    SEPARATOR="|" ) AS ?aliases )
 
-where = """
  WHERE 
  {        
   {?item wdt:P31/wdt:P279*  wd:Q40218 .} # spacecraft
