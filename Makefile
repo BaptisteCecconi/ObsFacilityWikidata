@@ -7,7 +7,7 @@ DOCNAME = ObsFacilityWikidata
 DOCVERSION = 1.0
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2022-06-17
+DOCDATE = 2023-11-15
 
 # What is it you're writing: NOTE, WD, PR, REC, PEN, or EN
 DOCTYPE = NOTE
@@ -18,15 +18,15 @@ AUTHOR_EMAIL=baptiste.cecconi@obspm.fr
 
 # Source files for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex role_diagram.pdf
+SOURCES = $(DOCNAME).tex
 
 # List of image files to be included in submitted package (anything that
 # can be rendered directly by common web browsers)
-FIGURES = role_diagram.svg pds4-concept-map.jpg
+FIGURES = role_diagram.svg pds4-concept-map.jpg spase-2_6_0_xsd_Complex_Type_spase_Instrument.jpg spase-2_6_0_xsd_Complex_Type_spase_Observatory.jpg
 
 # List of PDF figures (figures that must be converted to pixel images to
 # work in web browsers).
-VECTORFIGURES = 
+VECTORFIGURES = role_diagram.pdf
 
 # Additional files to distribute (e.g., CSS, schema files, examples...)
 AUX_FILES = localrefs.bib sparql_query.txt
