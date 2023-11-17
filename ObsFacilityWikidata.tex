@@ -80,15 +80,17 @@ typical use case for the VO, e.g.: \emph{Find Hubble observations
 of Saturn in Nov.\ 1997}. The two IVOA data discovery interfaces,
 ObsTAP \citep{2017ivoa.spec.0509L} and EPN-TAP \citep{ivoa:epntap},
 include keywords allowing such queries (with keywords like
-\texttt{facility} or \texttt{instrument\_host\_name}). However, with
+\texttt{facility} or \texttt{instrument\_host\_name}).
+
+However, with
 the specific previous example, a query on EPN-TAP will not show any
-result, since the available data are registered with an
-\texttt{instrument\_host\_name} set to \emph{HST}. It is up to the
+result, since the available data sets are registered with
+\texttt{instrument\_host\_name} set to \emph{HST}. So far, it is up to the
 data provider to provide observation facility names that likely match
 users' ideas of their designations.  Since
 observation facility names usually have acronyms, aliases or alternate
 names, which may further depend the context or even on
-time (e.g., space mission can change name when they are extended), this
+time (e.g., a space mission can change its name when it is extended), this
 is certainly no easy task.
 
 In order to address this use case, two steps are required: (a) group
@@ -137,11 +139,11 @@ available.
 In this document, we use a definition close to that of SPASE
 (see Section \ref{appendx:models:spase}), that is: an
 \emph{observation facility} is an apparatus bearing one or several
-instruments (measuring devices, modelling codes, etc.), which is
+instruments (measuring devices, modelling codes, etc.), which
 can be defined with a location, or a set of locations. In that sense, we deal with observatories,
 telescopes in observatories, spacecraft, space probes, space missions
 (as a group of spacecraft), etc. We also include laboratories or
-facilities conducting  experiments, such as supporting observation on
+facilities conducting  experiments, such as supporting observations on
 ices, plasma, gases, etc., as well as planetary analogue sites. The
 instruments (which are defined by their method or type of observation)
 attached to or mounted on the observation facilities are out of the scope
@@ -241,9 +243,11 @@ COSPAR-ID) and a name.
 The NASA/PDS is the NASA Planetary Science archive, built upon the
 PDS4-IM. As detailed in section \ref{sec:scope}, it is storing
 observation facility metadata into \emph{Context Products}. In this
-study we have analysed the \texttt{airborne}, \texttt{facility},
-\texttt{instrument\_host} and \texttt{telescope}. Each record is
-a PDS4-IM product, many metadata, including a PDS4 Logical
+study we have analysed the lists for the
+\texttt{airborne}, \texttt{facility},
+\texttt{instrument\_host} and \texttt{telescope}
+observing system components. Each record is
+a PDS4-IM product, much metadata including a PDS4 Logical
 identifier, and a full name.
 
 \subsection{SANA (Space Assigned Numbers Authority)}
@@ -276,14 +280,14 @@ which is organised by \emph{Naming Authority}. Although each naming
 authority may have an Observatory section, most of the Observatory
 records are currently registered in the SMWG (SPASE Metadata Working
 Group) repository\footnote{\url{https://github.com/hpde/SMWG}}.
-Each observatory records includes an identifier (SPASE URI) and a name.
+Each observatory record includes an identifier (SPASE URI) and a name.
 
 \subsection{WMO/Oscar (World Meteorologic Organisation/Observing Systems Capability Analysis and Review Tool)}
 The OSCAR tool of the WMO is maintaining several lists concerning
 observation facilities, with Space-based resources\footnote{\url{https://space.oscar.wmo.int/spacecapabilities}},
 as well as ground based stations\footnote{\url{https://oscar.wmo.int/surface/\#/}}.
 We consider these lists since Space Weather (or Space Situational
-Awareness) is part of both the WMO and IVOA scopes. The analysis of these
+Awareness) is part of both the WMO's and the IVOA's scopes. The analysis of these
 resources requires filtering to keep only those within the IVOA scope.
 Each satellite record includes an acronym, and a full name.
 
@@ -293,7 +297,7 @@ using its SsODNet (Solar system Open Database Network) service. This
 service, called \emph{Quaero} contains several types of records. Using
 the query \url{https://api.ssodnet.imcce.fr/quaero/1/sso/search?q=type:Spacecraft},
 it is possible to access to the list of Spacecraft records. Each
-record is includes of an identifier, a name, and a list of
+record includes of an identifier, a name, and a list of
 aliases.
 
 \subsection{Wikidata}
@@ -534,8 +538,8 @@ european-vlbi-network   & \emph{has-part} effelsberg-100-m-radio-telescope\\
 \end{longtable}}
 
 \section{Discussion}
-This note presents how to use Wikidata to setup a name resolver
-for Observations Facilities, and it should be possible to setup
+This note presents how to use Wikidata to set up a name resolver
+for Observation Facilities, and it should be possible to setup
 an Observation Facility vocabulary using the same knowledge base.
 
 As stated in the introduction, this note is not addressing the
@@ -555,19 +559,19 @@ are not yet present in Wikidata.
 
 However is it important to understand the community engagement
 underlying Wikidata is a strength as much as a weakness. The
-general public engagement allows to have a very complete
-knowledge base, with regularly curated records and links. However
+general public engagement helps creating a very complete
+knowledge base, with regularly curated records and links. However,
 there is no coordination for the curation nor for the consistency
-of the properties used for linking resources. Each contributor may
-have his own views on the way to link resources, and they may not
+of the properties used for linking resources. Contributors may
+have their own views on the way to link resources, and they may not
 agree to update their resource-linking scheme to the IVOA use-case.
-Indeed, we have encountered difficulties to find a query allowing
+Indeed, we have encountered difficulties to find a query allowing us
 to retrieve a clean set of resources for our purpose. We worked on
 Wikidata content, first to curate resources (with success in general),
 and then to update properties or labels to reduce the overhead (with
 less success in this case). Some Wikidata contributors kept removing
 our contributions, even after explaining the rationale of the changes.
-Hence, there is a probably a need for an external knowledge base to
+Hence, there is probably a need for an external knowledge base to
 keep track of IVOA-curated resources.
 
 Finally, the recent RDA \emph{PID for Instruments}
@@ -583,19 +587,27 @@ are timely and adequately curated and updated.
 \section{Metadata Models}
 \label{appendix:models}
 
+\begin{figure}
+\centering\includegraphics[width=0.9\textwidth]{pds4-concept-map.jpg}
+\caption{PDS4 Information Model Concept Map, including the
+\emph{Observing\_System} section. Figure take from PDS4 IM v1.17.0.0
+\protect\citep{pds4-im-v1H00}.}\label{fig:pds4-concept-map}
+\end{figure}
+
+
 \subsection{IPDA - PDS4 Information Model}
 The PDS4-IM (NASA Planetary Data System version 4 Information Model)
 is the NASA planetary science archive underlying information
 model. It can be considered as a serialization of the OAIS ---Open
-Archival Information System, \citep{iso:oais}--- model \citep{Hughes:2017bt}.
+Archival Information System \citep{iso:oais}--- model \citep{Hughes:2017bt}.
 It is managed in the frame of the IPDA (International Planetary
 Data Alliance) and is used by the ESA and JAXA planetary science
 archives.
 
 The PDS4-IM includes terms to describe an \emph{Observing\_System}, see
 Figure \ref{fig:pds4-concept-map}, defined as follows:
-``\emph{The Observing System class describes the entire suite used to
-collect the data}''. At the time of writing, the list of
+\emph{``The Observing System class describes the entire suite used to
+collect the data''}. At the time of writing, the list of
 \texttt{Observing\_System\_Components}\footnote{
 \url{https://pds.nasa.gov/datastandards/documents/im/v1/index_1H00.html\#attribute_pds_observing_system_component_pds_type}}
 is defined as: ``\emph{Airborne, Aircraft, Artificial Illumination,
@@ -603,27 +615,20 @@ Balloon, Computer, Facility, Host, Instrument, Laboratory, Literature
 Search, Naked Eye, Observatory, Spacecraft, Suborbital Rocket,
 Telescope}'', each of which is defined in the PDS4-IM.
 
-Every element in the archive system is a product. Observation
-facilities description records are serialised using so-called
+Every element in the archive system is a product. Description records of
+observation facilities are serialised using so-called
 \emph{Context Products}. The PDS4 context
-products are currently available online at:
+products are currently available online at
 \url{https://pds.nasa.gov/data/pds4/context-pds4/}. This
-page provides access to context product types like: \emph{facility},
+page provides access to context product types like \emph{facility},
 \emph{instrument}, \emph{instrument\_host}, \emph{investigation},
 \emph{telescope}, etc. The \emph{Hubble Space Telescope}
 record\footnote{\protect\url{https://pds.nasa.gov/data/pds4/context-pds4/instrument_host/spacecraft.hst_1.3.xml}}
-is providing a series of metadata, including an identifier, a title,
+is providing a series of metadata including an identifier, a title,
 a reference, a description, and many internal references to other
-context products registered in the PDS4 database, including
+context products registered in the PDS4 database including
 observed targets, and investigations (observation campaigns), hosted
 instruments, etc.
-
-\begin{figure}
-\centering\includegraphics[width=0.9\textwidth]{pds4-concept-map.jpg}
-\caption{PDS4 Information Model Concept Map, including the
-\emph{Observing\_System} section. Figure take from PDS4 IM v1.17.0.0
-\protect\citep{pds4-im-v1H00}.}\label{fig:pds4-concept-map}
-\end{figure}
 
 \subsection{IVOA -- VOFacility}
 
@@ -639,12 +644,12 @@ LabExperiment, Simulation}.
 \subsection{OGC - SensorML Model}
 In the frame of Earth Observation (EO), the Open Geospatial Consortium
 (OGC) has defined a SensorML (Sensor Meta Language) \citep{ogc-sensorml}
-allowing to describe sensors and instruments. One of the application of
-SensorML is the ``\emph{Discovery of sensor, sensor systems, and
-processes}.''\footnote{\url{http://wiki.gis.com/wiki/index.php/SensorML}}
-The \emph{PhysicalSystem} type of SensorML is the closest model type to
+for the description of sensors and instruments. One of the applications of
+SensorML is the \emph{``Discovery of sensor, sensor systems, and
+processes.''}\footnote{\url{http://wiki.gis.com/wiki/index.php/SensorML}}
+The \emph{PhysicalSystem} type of SensorML is the model type closest to
 our observation facility term.  However, it mixes instruments, sensors
-and platform into a single compound type, which does not match our
+and platforms into a single compound type, which does not match our
 typology mapping.
 
 \subsection{IHDEA - SPASE Model}
@@ -665,6 +670,7 @@ various properties of SPASE Observatory and Instrument classes.
 \caption{Observatory (left) and Instrument (right) classes in SPASE data Model 2.6.0}\label{fig:spase-observatory}
 \end{figure}
 
+\goodbreak
 \section{List Example Records}
 \label{appendix:lists}
 \subsection{AAS Record Examples}
